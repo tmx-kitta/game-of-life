@@ -1,15 +1,26 @@
-pipeline {
-  agent {
-    docker {
-      image 'gcc'
-    }
-
+node {
+  stage('prepare') {
+      git credentialsId: 'git-login', url: 'http://localhost:5000/gitserver/butler/gameoflife.git' 
   }
-  stages {
-    stage('Prepare') {
-      steps {
-        echo 'Get SorceCode from repo.'
-      }
-    }
+  stage('build') {
+    sh '/usr/share/java/maven-3/bin/mvn compile'
+  }
+
+  stage('test') {
+    sh '/usr/share/java/maven-3/bin/mvn test'
+    junit '**/target/surefire-reports/*.xml'
+  }
+
+  stage('integlation test') {
+    parallel firefox: {
+    sh '/usr/share/java/maven-3/bin/mvn clean verify -B -pl gameoflife-web -Dsurefire.useFile=false -Dwebdriver.driver=firefox -Dwebdriver.port=9092 -Djetty.stop.port=9997'
+  }, htmlunit: {
+      sh '/usr/share/java/maven-3/bin/mvn clean verify -B -pl gameoflife-web -Dsurefire.useFile=false -Dwebdriver.driver=htmlunit -Dwebdriver.port=9092 -Djetty.stop.port=9997'
+   }
+  }
+
+  stage('install') {
+      sh '/usr/share/java/maven-3/bin/mvn clean install -B -Dsurefire.useFile=false'
+      archiveArtifacts '**/target/*.jar'
   }
 }
