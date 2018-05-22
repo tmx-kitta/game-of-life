@@ -1,7 +1,4 @@
 node {
-  stage('prepare') {
-      git credentialsId: 'git-login', url: 'http://localhost:5000/gitserver/butler/gameoflife.git' 
-  }
   stage('build') {
     sh '/usr/share/java/maven-3/bin/mvn compile'
   }
