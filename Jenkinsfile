@@ -1,11 +1,18 @@
 pipeline {
-  agent any
+  agent {
+    node {
+      label 'mvn352'
+    }
+
+  }
   stages {
-    stage('') {
+    stage('error') {
       steps {
         sh '''ls -al
 pwd
-ipconfig'''
+
+mvn --version
+'''
       }
     }
   }
