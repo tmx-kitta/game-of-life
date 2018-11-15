@@ -6,7 +6,7 @@ pipeline {
 
   }
   stages {
-    stage('error') {
+    stage('Smoke') {
       steps {
         sh '''ls -al
 pwd
