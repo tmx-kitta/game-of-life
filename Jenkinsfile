@@ -15,5 +15,13 @@ mvn --version
 '''
       }
     }
+    stage('') {
+      steps {
+        withMaven(maven: 'mvn3') {
+          sh 'mvn clean install'
+        }
+
+      }
+    }
   }
 }
