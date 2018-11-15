@@ -8,10 +8,8 @@ pipeline {
   stages {
     stage('Smoke') {
       steps {
-        sh '''ls -al
-pwd
-
-mvn --version
+        sh '''mvn --version
+java --version
 '''
       }
     }
