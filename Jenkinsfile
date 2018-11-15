@@ -32,6 +32,11 @@ mvn --version
         }
       }
     }
+    stage('Metrics') {
+      steps {
+        sh 'mvn clean verify site -Pmetrics -B -Dwebdriver.port=9093 -Djetty.stop.port=9996'
+      }
+    }
   }
   environment {
     JAVA_HOME = '/usr/local/jdk1.8.0_161'
