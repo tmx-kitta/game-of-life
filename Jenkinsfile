@@ -19,7 +19,7 @@ java --version
           steps {
             withMaven(maven: 'mvn3') {
               sh 'mvn clean install -B -Dsurefire.useFile=false'
-              sh 'mvn clean verify site -Pmetrics -B -Dwebdriver.port=9093 -Djetty.stop.port=9996'
+              sh 'echo mvn clean verify site -Pmetrics -B -Dwebdriver.port=9093 -Djetty.stop.port=9996'
             }
 
           }
