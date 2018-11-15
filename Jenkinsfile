@@ -15,7 +15,7 @@ mvn --version
 '''
       }
     }
-    stage('') {
+    stage('error') {
       steps {
         withMaven(maven: 'mvn3') {
           sh 'mvn clean install'
@@ -23,5 +23,8 @@ mvn --version
 
       }
     }
+  }
+  environment {
+    JAVA_HOME = '/usr/local/jdk1.8.0_161'
   }
 }
