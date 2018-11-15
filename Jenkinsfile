@@ -15,12 +15,21 @@ mvn --version
 '''
       }
     }
-    stage('error') {
-      steps {
-        withMaven(maven: 'mvn3') {
-          sh 'mvn clean install'
-        }
+    stage('Build') {
+      parallel {
+        stage('Build') {
+          steps {
+            withMaven(maven: 'mvn3') {
+              sh 'mvn clean install -B -Dsurefire.useFile=false'
+            }
 
+          }
+        }
+        stage('integration-tests') {
+          steps {
+            sh 'mvn clean verify -B -pl gameoflife-web -Dsurefire.useFile=false -Dwebdriver.driver=firefox -Dwebdriver.port=9092 -Djetty.stop.port=9997'
+          }
+        }
       }
     }
   }
